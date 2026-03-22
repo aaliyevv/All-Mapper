@@ -9,3 +9,16 @@ import java.time.LocalDate;
 @Data
 public class CardRequestDto {
 
+    @NotBlank
+    private String cardNumber;
+
+    @NotBlank
+    private String cardType;
+
+    @NotNull
+    private LocalDate expirationDate;
+
+    @NotNull
+    private Long accountId;
+
+}
