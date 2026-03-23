@@ -25,4 +25,32 @@ public class AccountMapper {
         return account;
     }
 
-    
+    public AccountResponseDto toDto(Account account) {
+
+        if (account == null){
+            return null;
+        }
+
+        return new AccountResponseDto(
+                account.getId(),
+                account.getAccountNumber(),
+                account.getBalance(),
+                account.getCurrency(),
+                account.getCustomer().getId()
+        );
+    }
+
+    public void updateEntity(AccountResponseDto accountResponseDto, Account account, Customer customer){
+
+        if (account == null || customer == null ||
+                accountResponseDto == null){
+            return;
+        }
+
+        account.setAccountNumber(accountResponseDto.getAccountNumber());
+        account.setBalance(accountResponseDto.getBalance());
+        account.setCurrency(accountResponseDto.getCurrency());
+        account.setCustomer(customer);
+
+    }
+}
