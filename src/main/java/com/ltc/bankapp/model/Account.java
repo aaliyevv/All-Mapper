@@ -22,7 +22,9 @@ public class Account {
     private Double balance;
     private String currency;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)  // not full object, what we need we can call:
+    // account.getCustomer().getFullName();
+
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
