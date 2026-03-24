@@ -25,4 +25,28 @@ public class CustomerMapper {
         return customer;
     }
 
-    
+    public CustomerResponseDto toDto(Customer customer){
+
+        if(customer == null){
+            return null;
+        }
+
+        return new CustomerResponseDto(
+                customer.getId(),
+                customer.getFullName(),
+                customer.getEmail(),
+                customer.getPhoneNumber()
+        );
+    }
+
+    public void updateEntity(CustomerRequestDto dto, Customer customer){
+        if (dto == null){
+            return;
+        }
+
+        customer.setFullName(dto.getFullName());
+        customer.setEmail(dto.getEmail());
+        customer.setPhoneNumber(dto.getPhoneNumber());
+    }
+
+}
