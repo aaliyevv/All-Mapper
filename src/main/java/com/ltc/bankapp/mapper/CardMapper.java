@@ -26,4 +26,23 @@ public class CardMapper {
         return card;
     }
 
-    
+    public CardResponseDto toDto(Card card){
+
+        if (card == null){
+            return null;
+        }
+
+        return new CardResponseDto(
+                card.getId(),
+                card.getCardNumber(),
+                card.getCardType(),
+                card.getExpirationDate(),
+                card.isActive(),
+                card.getAccount().getId()
+        );
+    }
+
+    //  card is not updated commonly
+    //  activate / deactivate or block / unblock
+
+}
