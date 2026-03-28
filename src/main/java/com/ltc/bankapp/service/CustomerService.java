@@ -31,3 +31,31 @@ public class CustomerService {
         return customerRepo.findAll(pageable)
                 .map(customerMapper::toDto);
     }
+
+    public CustomerResponseDto findById(Long id){
+
+        Customer customer = customerRepo.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found" + id));
+
+        return customerMapper.toDto(customer);
+    }
+
+    public CustomerResponseDto update(Long id, CustomerRequestDto customerRequestDto){
+
+        Customer customer = customerRepo.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found" + id));
+
+        customerMapper.updateEntity(customerRequestDto, customer);
+        customerRepo.save(customer);
+        return customerMapper.toDto(customer);
+
+    }
+
+    public void delete(Long id){
+
+        Customer customer = customerRepo.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found" + id);
+
+                customerRepo.delete(customer);
+    }
+}
