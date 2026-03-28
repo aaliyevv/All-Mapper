@@ -1,4 +1,33 @@
 package com.ltc.bankapp.service;
 
+import com.ltc.bankapp.dto.customer.CustomerRequestDto;
+import com.ltc.bankapp.dto.customer.CustomerResponseDto;
+import com.ltc.bankapp.exception.CustomerNotFoundException;
+import com.ltc.bankapp.mapper.CustomerMapper;
+import com.ltc.bankapp.model.Customer;
+import com.ltc.bankapp.repo.CustomerRepo;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
 public class CustomerService {
-}
+
+    private final CustomerRepo customerRepo;
+    private final CustomerMapper customerMapper;
+
+    public CustomerResponseDto create(CustomerRequestDto customerRequestDto){
+
+        Customer customer = customerMapper.toEntity(customerRequestDto);
+        customerRepo.save(customer);
+        return customerMapper.toDto(customer);
+
+    }
+
+    public Page<CustomerResponseDto> getAll(Pageable pageable){
+
+        return customerRepo.findAll(pageable)
+                .map(customerMapper::toDto);
+    }
