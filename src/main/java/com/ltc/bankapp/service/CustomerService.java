@@ -29,7 +29,7 @@ public class CustomerService {
     public Page<CustomerResponseDto> getAll(Pageable pageable){
 
         return customerRepo.findAll(pageable)
-                .map(customerMapper::toDto);
+                .map(customerMapper::toDto);    // Convert each element to dto
     }
 
     public CustomerResponseDto findById(Long id){
