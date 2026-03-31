@@ -40,7 +40,7 @@ public class AccountMapper {
         );
     }
 
-    public void updateEntity(AccountResponseDto accountResponseDto, Account account, Customer customer){
+    public void updateEntity(AccountRequestDto accountResponseDto, Account account, Customer customer){
 
         if (account == null || customer == null ||
                 accountResponseDto == null){

@@ -4,6 +4,7 @@ import com.ltc.bankapp.dto.account.AccountRequestDto;
 import com.ltc.bankapp.dto.account.AccountResponseDto;
 import com.ltc.bankapp.dto.customer.CustomerRequestDto;
 import com.ltc.bankapp.dto.customer.CustomerResponseDto;
+import com.ltc.bankapp.exception.AccountNotFoundException;
 import com.ltc.bankapp.exception.CustomerNotFoundException;
 import com.ltc.bankapp.mapper.AccountMapper;
 import com.ltc.bankapp.model.Account;
@@ -11,6 +12,8 @@ import com.ltc.bankapp.model.Customer;
 import com.ltc.bankapp.repo.AccountRepo;
 import com.ltc.bankapp.repo.CustomerRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,4 +35,39 @@ public class AccountService {
 
     }
 
+    public Page<AccountResponseDto> getAll(Pageable pageable){
+
+        return  accountRepo.findAll(pageable)
+                .map(accountMapper::toDto);
+    }
+
+    public AccountResponseDto getById(Long id){
+
+        Account account = accountRepo.findById(id).orElseThrow(
+                () -> new AccountNotFoundException("Account not found:" + id));
+
+        return accountMapper.toDto(account);
+    }
+
+    public AccountResponseDto update(Long id, AccountRequestDto accountRequestDto){
+
+        Account account = accountRepo.findById(id).orElseThrow(
+                () -> new AccountNotFoundException("Account not found:" + id));
+
+        Customer customer = customerRepo.findById(accountRequestDto.getCustomerId()).orElseThrow(
+                () -> new CustomerNotFoundException("Customer not found:" + accountRequestDto.getCustomerId()));
+
+        accountMapper.updateEntity(accountRequestDto, account, customer);
+        accountRepo.save(account);
+
+        return accountMapper.toDto(account);
+    }
+
+    public void delete(Long id){
+
+        Account account = accountRepo.findById(id).orElseThrow(
+                () -> new AccountNotFoundException("Account not found:" + id));
+
+        accountRepo.delete(account);
+    }
 }

@@ -54,7 +54,7 @@ public class CustomerService {
     public void delete(Long id){
 
         Customer customer = customerRepo.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found" + id);
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found" + id));
 
                 customerRepo.delete(customer);
     }
