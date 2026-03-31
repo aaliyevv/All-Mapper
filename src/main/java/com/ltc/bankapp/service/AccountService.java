@@ -49,25 +49,5 @@ public class AccountService {
         return accountMapper.toDto(account);
     }
 
-    public AccountResponseDto update(Long id, AccountRequestDto accountRequestDto){
-
-        Account account = accountRepo.findById(id).orElseThrow(
-                () -> new AccountNotFoundException("Account not found:" + id));
-
-        Customer customer = customerRepo.findById(accountRequestDto.getCustomerId()).orElseThrow(
-                () -> new CustomerNotFoundException("Customer not found:" + accountRequestDto.getCustomerId()));
-
-        accountMapper.updateEntity(accountRequestDto, account, customer);
-        accountRepo.save(account);
-
-        return accountMapper.toDto(account);
-    }
-
-    public void delete(Long id){
-
-        Account account = accountRepo.findById(id).orElseThrow(
-                () -> new AccountNotFoundException("Account not found:" + id));
-
-        accountRepo.delete(account);
-    }
+    
 }
