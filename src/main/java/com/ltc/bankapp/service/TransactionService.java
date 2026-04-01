@@ -24,5 +24,33 @@ public class TransactionService {
     private final TransactionMapper transactionMapper;
     private final PageableArgumentResolver pageableArgumentResolver;
 
+    public TransactionResponseDto create(TransactionRequestDto transactionRequestDto) {
+
+        Account account = accountRepo.findById(transactionRequestDto.getAccountId()).orElseThrow(
+                () -> new AccountNotFoundException("Account not found" + transactionRequestDto.getAccountId()));
+
+        if (transactionRequestDto.getType().equalsIgnoreCase("DEPOSIT")) {
+            account.setBalance(account.getBalance() + transactionRequestDto.getAmount());
+
+        } else if (transactionRequestDto.getType().equalsIgnoreCase("WITHDRAW"))
+             { if (account.getBalance() < transactionRequestDto.getAmount()) {
+                 throw new InsufficientBalanceException("Insufficient balance");
+             }
+                account.setBalance(account.getBalance() - transactionRequestDto.getAmount());
+            }
+        accountRepo.save(account);
+
+        Transaction transaction = transactionMapper.toEntity(transactionRequestDto,  account);
+        transactionRepo.save(transaction);
+
+        return transactionMapper.toDto(transaction);
+    }
+
+    public Page<TransactionResponseDto> getAll(Pageable pageable) {
+
+        return transactionRepo.findAll(pageable)
+                .map(transactionMapper:: toDto);
+    }
+
     
 }
