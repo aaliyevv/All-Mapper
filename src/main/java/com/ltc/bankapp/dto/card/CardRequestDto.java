@@ -12,7 +12,7 @@ public class CardRequestDto {
     @NotBlank
     private String cardNumber;
 
-    @NotBlank
+    @NotNull
     private String cardType;
 
     @NotNull

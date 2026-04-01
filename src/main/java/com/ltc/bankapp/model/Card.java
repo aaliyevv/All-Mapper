@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-
+import jakarta.persistence.Id;
 import java.time.LocalDate;
 
 @Entity
@@ -21,7 +20,10 @@ public class Card {
 
     @Column(unique = true)
     private String cardNumber;
+
+    @Enumerated(EnumType.STRING)
     private String cardType;  // Visa, Debit, Mastercard, Credit
+
     private LocalDate expirationDate;
     private boolean active = true;
 

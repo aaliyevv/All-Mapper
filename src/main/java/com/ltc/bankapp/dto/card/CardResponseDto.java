@@ -15,7 +15,7 @@ public class CardResponseDto {
     private String cardNumber;
     private String cardType;
     private LocalDate expirationDate;
-    private boolean active = true;
+    private boolean active;
     private Long accountId;
 
 }

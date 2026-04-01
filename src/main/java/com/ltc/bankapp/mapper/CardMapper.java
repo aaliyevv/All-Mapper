@@ -42,7 +42,8 @@ public class CardMapper {
         );
     }
 
-    //  card is not updated commonly
+    //  card is not updated commonly (sensitive data
+    // We can change physical bank card
     //  activate / deactivate or block / unblock
 
 }
