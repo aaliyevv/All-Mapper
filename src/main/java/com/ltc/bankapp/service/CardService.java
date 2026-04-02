@@ -18,3 +18,33 @@ import org.springframework.transaction.support.ResourceTransactionManager;
 @Service
 @RequiredArgsConstructor
 public class CardService {
+
+    private final CardRepo cardRepo;
+    private final AccountRepo accountRepo;
+    private final CardMapper cardMapper;
+    private final ResourceTransactionManager resourceTransactionManager;
+
+    public CardResponseDto create(CardRequestDto cardRequestDto){
+
+        Account account =accountRepo.findById(cardRequestDto.getAccountId()).orElseThrow(
+                ()-> new AccountNotFoundException("Account not found" + cardRequestDto.getAccountId()));
+
+        Card card = cardMapper.toEntity(cardRequestDto,account);
+        cardRepo.save(card);
+
+        return cardMapper.toDto(card);
+    }
+
+    public Page<CardResponseDto> getAll(Pageable pageable){
+
+        return cardRepo.findAll(pageable)
+                .map(cardMapper::toDto);
+    }
+
+    public CardResponseDto findById(Long id){
+
+        Card card = cardRepo.findById(id).orElseThrow(
+                () -> new CardNotFoundException("Card not found" + id));
+
+        return cardMapper.toDto(card);
+    }
