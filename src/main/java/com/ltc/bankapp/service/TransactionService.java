@@ -52,5 +52,17 @@ public class TransactionService {
                 .map(transactionMapper:: toDto);
     }
 
-    
+    public TransactionResponseDto getById(Long id) {
+
+        Transaction transaction = transactionRepo.findById(id).orElseThrow(
+                () -> new RuntimeException("Transaction not found" + id));
+
+        return transactionMapper.toDto(transaction);
+    }
+
+    public Page<TransactionResponseDto> getByAccountId(Long accountId, Pageable pageable) {
+
+        return transactionRepo.findByAccountId(accountId, pageable)
+                .map(transactionMapper::toDto);
+    }
 }
