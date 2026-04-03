@@ -49,6 +49,12 @@ public class AccountService {
         return accountMapper.toDto(account);
     }
 
+    public Page<AccountResponseDto> getByCustomerId (Long customerId, Pageable pageable){
+
+        return accountRepo.findByCustomerId(customerId, pageable)
+                .map(accountMapper::toDto);
+    }
+
     public AccountResponseDto update(Long id, AccountRequestDto accountRequestDto){
 
         Account account = accountRepo.findById(id).orElseThrow(

@@ -32,7 +32,7 @@ public class CustomerService {
                 .map(customerMapper::toDto);    // Convert each element to dto
     }
 
-    public CustomerResponseDto findById(Long id){
+    public CustomerResponseDto getById(Long id){
 
         Customer customer = customerRepo.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer not found" + id));

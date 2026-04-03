@@ -29,10 +29,10 @@ public class TransactionService {
         Account account = accountRepo.findById(transactionRequestDto.getAccountId()).orElseThrow(
                 () -> new AccountNotFoundException("Account not found" + transactionRequestDto.getAccountId()));
 
-        if (transactionRequestDto.getType().equalsIgnoreCase("DEPOSIT")) {
+        if (transactionRequestDto.getType().equals("DEPOSIT")) {
             account.setBalance(account.getBalance() + transactionRequestDto.getAmount());
 
-        } else if (transactionRequestDto.getType().equalsIgnoreCase("WITHDRAW"))
+        } else if (transactionRequestDto.getType().equals("WITHDRAW"))
              { if (account.getBalance() < transactionRequestDto.getAmount()) {
                  throw new InsufficientBalanceException("Insufficient balance");
              }
