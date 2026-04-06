@@ -53,3 +53,33 @@ public class CardService {
                 .map(cardMapper::toDto);
     }
 
+    public CardResponseDto deactivate(Long id){
+
+        Card card = cardRepo.findById(id).orElseThrow(
+                () -> new CardNotFoundException("Card not found" + id));
+
+        card.setActive(false);
+        cardRepo.save(card);
+
+        return cardMapper.toDto(card);
+    }
+
+//    public CardResponseDto activate(Long id){
+//
+//        Card card = cardRepo.findById(id).orElseThrow(
+//                () -> new CardNotFoundException("Card not found" + id));
+//
+//        card.setActive(true);
+//        cardRepo.save(card);
+//
+//        return cardMapper.toDto(card);
+//    }
+
+    public void delete(Long id){
+
+        Card card = cardRepo.findById(id).orElseThrow(
+                () -> new CardNotFoundException("Card not found" + id));
+
+        cardRepo.delete(card);
+    }
+}
