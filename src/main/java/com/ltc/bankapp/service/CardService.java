@@ -32,3 +32,24 @@ public class CardService {
 
         return cardMapper.toDto(card);
     }
+
+    public Page<CardResponseDto> getAll(Pageable pageable){
+
+        return cardRepo.findAll(pageable)
+                .map(cardMapper::toDto);
+    }
+
+    public CardResponseDto getById(Long id){
+
+        Card card = cardRepo.findById(id).orElseThrow(
+                () -> new CardNotFoundException("Card not found" + id));
+
+        return cardMapper.toDto(card);
+    }
+
+    public Page<CardResponseDto> getByAccountId (Long accountId, Pageable pageable){
+
+        return cardRepo.findByAccountId(accountId, pageable)
+                .map(cardMapper::toDto);
+    }
+
