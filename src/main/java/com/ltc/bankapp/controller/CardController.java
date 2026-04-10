@@ -36,3 +36,34 @@ public class CardController {
 
         return ResponseEntity.ok(cardService.getAll(pageable));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CardResponseDto> getById(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(cardService.getById(id));
+    }
+
+
+    @PutMapping("/{id}/deactivate")
+    public ResponseEntity<CardResponseDto> update(
+            @PathVariable Long id){
+
+        return ResponseEntity.ok(cardService.deactivate(id));
+    }
+
+//    @PutMapping("/{id}/activate")
+//    public ResponseEntity<CardResponseDto> update(
+//            @PathVariable Long id) {
+//
+//        return ResponseEntity.ok(cardService.activate(id));
+//    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
+        cardService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
