@@ -23,4 +23,31 @@ public class CustomerController {
 
         return ResponseEntity.ok(customerService.create((customerRequestDto)));
     }
+
+    @GetMapping
+    public ResponseEntity<Page<CustomerResponseDto>> getAll(Pageable pageable) {
+
+        return ResponseEntity.ok(customerService.getAll(pageable));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerResponseDto> getById(@PathVariable Long id) {
+
+        return ResponseEntity.ok(customerService.getById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerResponseDto> update(
+            @PathVariable Long id,
+            @Valid @RequestBody CustomerRequestDto customerRequestDto) {
+
+        return ResponseEntity.ok(customerService.update(id, customerRequestDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+
+        customerService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
