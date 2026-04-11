@@ -24,3 +24,30 @@ public class TransactionController {
 
         return ResponseEntity.ok(transactionService.create(transactionRequestDto));
     }
+
+    @GetMapping
+    public ResponseEntity <Page<TransactionResponseDto>> getAll(
+            @RequestParam (required = false) Long accountId, Pageable pageable){
+
+        if (accountId != null) {
+            return ResponseEntity.ok(transactionService.getByAccountId(accountId, pageable));
+        }
+
+        return ResponseEntity.ok(transactionService.getAll(pageable));
+    }
+
+//    @GetMapping
+//    public ResponseEntity <Page<TransactionResponseDto>> getAll(Pageable pageable){
+//
+//        return ResponseEntity.ok(transactionService.getAll(pageable));
+//    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity <TransactionResponseDto> getById(
+            @PathVariable Long id){
+
+        return ResponseEntity.ok(transactionService.getById(id));
+    }
+
+
+}
